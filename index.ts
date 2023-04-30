@@ -15,7 +15,7 @@ app.use(cors());
 Router.defineRoutes(app, router);
 
 mongoose
-    .connect("mongodb+srv://zymbar_dev:HdmSh7WwPXEF3ojB@zymbar.utmygv4.mongodb.net/test")
+    .connect(process.env.CONNECTIONSTRING)
     .then(() => {
         app.listen(port, () => {
             console.log("Servidor está UP");
