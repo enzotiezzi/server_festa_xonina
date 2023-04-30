@@ -18,6 +18,6 @@ const ItemSchema = new Schema({
     }
 });
 
-const Item: Model<IItem> = model("Item", ItemSchema);
+const Item: Model<IItem> = model<IItem>("Item", ItemSchema);
 
 export default Item;
