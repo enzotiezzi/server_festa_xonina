@@ -2,7 +2,6 @@ import * as express from 'express';
 import * as mongoose from 'mongoose';
 import * as cors from 'cors';
 import {Router} from './routes/routes';
-import { DbConfig } from './config/db';
 
 const app = express();
 const router = express.Router();
@@ -16,7 +15,7 @@ app.use(cors());
 Router.defineRoutes(app, router);
 
 mongoose
-    .connect(DbConfig.connectionString)
+    .connect(process.env.CONNECTIONSTRING || "")
     .then(_ => {
         app.listen(port, () => {
             console.log("Servidor está UP");
