@@ -3,8 +3,10 @@ import Item from "../schemas/item"
 import * as createHttpError from "http-errors";
 
 export class ItemController {
-    constructor(app: Application, router: Router){
+    constructor(app: Application){
         const routePrefix = "/apis/v1/itens";
+
+        const router = Router();
 
         router.get("/", this.get);
         router.post("/", this.post);
