@@ -1,8 +1,8 @@
 import { Application, NextFunction, Request, Response, Router } from "express";
 import * as createHttpError from "http-errors";
-import Participante from "../schemas/participante";
+import Participante, { IParticipante } from "../schemas/participante";
 import ParticipanteItem from "../schemas/participante_item";
-import Item from "../schemas/item";
+import Item, { IItem } from "../schemas/item";
 
 export class ParticipanteController {
     constructor(app: Application) {
@@ -57,15 +57,26 @@ export class ParticipanteController {
 
         res.status(201).json(participanteItem);
     }
-    
-    async getAll(req: Request, res: Response, next: NextFunction) {
-        const participantes = await Participante.find();
 
-        participantes.forEach(async x =>{
-            const itens = await ParticipanteItem.find({ participante: x._id })
+    async getAll(req: Request, res: Response, next: NextFunction) {
+        const entities = await Participante.find();
+        const participantes: { nome: string, email: string, itens: IItem[] }[] = [];
+
+        for (let index = 0; index < entities.length; index++) {
+            const element = entities[index];[
+
+            ]
+            const itens = await ParticipanteItem.find({ participante: element._id })
                 .populate('item');
-            x.itens = itens.map(x => x.item);
-        });
+
+            participantes.push({
+                nome: element.nome,
+                email: element.email,
+                itens: itens.map(x => x.item)
+            });
+        }
+
+        console.log(participantes);
 
         res.status(200).json(participantes);
     }
