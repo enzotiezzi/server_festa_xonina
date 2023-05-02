@@ -47,8 +47,14 @@ export class ParticipanteController {
             participanteItem = await ParticipanteItem.create({
                 participante: idParticipante,
                 item: idItem,
-                quantidade: quantidade
+                quantidade: quantidade,
             });
+
+            const participante = await Participante.findById(idParticipante);
+
+            participante?.itens.push(participanteItem);
+
+            await participante?.save();
         } else {
             participanteItem.quantidade = quantidade;
 
@@ -63,9 +69,8 @@ export class ParticipanteController {
         const participantes: { nome: string, email: string, itens: IItem[] }[] = [];
 
         for (let index = 0; index < entities.length; index++) {
-            const element = entities[index];[
+            const element = entities[index];
 
-            ]
             const itens = await ParticipanteItem.find({ participante: element._id })
                 .populate('item');
 
@@ -75,8 +80,6 @@ export class ParticipanteController {
                 itens: itens.map(x => x.item)
             });
         }
-
-        console.log(participantes);
 
         res.status(200).json(participantes);
     }
