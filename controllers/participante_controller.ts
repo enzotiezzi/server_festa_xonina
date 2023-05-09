@@ -66,7 +66,7 @@ export class ParticipanteController {
 
     async getAll(req: Request, res: Response, next: NextFunction) {
         const entities = await Participante.find();
-        const participantes: { nome: string, email: string, itens: IItem[] }[] = [];
+        const participantes: { _id: string, nome: string, email: string, itens: IItem[] }[] = [];
 
         for (let index = 0; index < entities.length; index++) {
             const element = entities[index];
@@ -75,6 +75,7 @@ export class ParticipanteController {
                 .populate('item');
 
             participantes.push({
+                _id: element._id,
                 nome: element.nome,
                 email: element.email,
                 itens: itens.map(x => x.item)
